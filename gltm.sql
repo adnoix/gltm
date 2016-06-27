@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2016-06-27 10:03:23
+Date: 2016-06-27 14:01:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,14 +37,16 @@ CREATE TABLE `gltm_admin` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `admin_name` varchar(20) CHARACTER SET utf8 NOT NULL COMMENT '登录名',
   `admin_pwd` varchar(40) CHARACTER SET utf8 NOT NULL COMMENT '密码',
+  `last_time` int(11) DEFAULT NULL COMMENT '最后登录时间',
   `login_ip` varchar(20) CHARACTER SET utf8 NOT NULL COMMENT '登录IP',
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态，1启用，2禁用',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=gbk;
 
 -- ----------------------------
 -- Records of gltm_admin
 -- ----------------------------
+INSERT INTO gltm_admin VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', '1467006269', '127.0.0.1', '1');
 
 -- ----------------------------
 -- Table structure for `gltm_area`
