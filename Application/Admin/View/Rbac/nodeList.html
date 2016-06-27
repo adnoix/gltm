@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/css/public.css" />
+	    <link rel="stylesheet" href="__PUBLIC__/css/node.css" />
+	
+	</head>
+	<body>
+		 
+		 <div id="wrap"> 
+		 	<a href="{:U('Rbac/nodeAdd')}"  class="add-app">添加应用</a>
+           
+            <foreach name='node' item='app'>
+            	<div class="app">
+            		<p>
+            			<strong>{$app.title}</strong>
+            			[<a href="{:U('/Rbac/nodeAdd',array('pid'=>$app['id'], 'level'=> 2))}">添加控制器</a>]
+            			[<a href="{:U('Admin/Rbac/nodeDel',array('pid'=>$app['id']))}">删除</a>]
+            		</p>
+
+            		<foreach name='app.child' item='action'>
+            			<dl>
+            				<dt>
+            					<strong>{$action.title}</strong>
+            					[<a href="{:U('/Rbac/nodeAdd',array('pid'=>$action['id'], 'level'=> 3))}">添加方法</a>]
+            				</dt>
+            			</dl>
+            			<foreach name='action.child' item='method'>
+            				<dd>
+            					<span>{$method.title}</span>
+            				</dd>
+            			</foreach>
+
+            		</foreach>
+            	</div>
+            </foreach>
+		 </div>
+	</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  	<title>Document</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/style.css" />
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.sorted.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/bootstrap.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/ckform.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+    <css file='__PUBLIC__/Css/page.css' />
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+
+    </style>
+ </head>
+ <body>
+	<div class="form-inline definewidth m20"><button type="button" class="btn btn-success" id="addnew">新增用户</button></div>
+	<table class="table table-bordered table-hover definewidth m10" >
+		<thead>
+		<tr>
+			<th>用户名称</th> 
+			<th>上一次登录时间</th> 
+			<th>上一次登录ip</th> 
+			<th>锁定状态</th> 
+			<th>用户所属别组</th> 
+			<th>操作</th> 
+		</tr>
+		</thead>
+		<volist name='list' id='v'>
+			<tr>
+				<td>{$v.admin_name}</td>
+				<td>{$v.last_time|date='Y-m-d H:i:s',###}</td>
+				<td>{$v.login_ip}</td>
+				<td>
+					<if condition='$v["status"] eq 2'>锁定
+					<else />
+					未锁定
+					</if>
+				</td>
+				<td>
+					<if condition = '$v["admin_name"] eq C("RBAC_SUPERADMIN")'>
+						超级管理员
+					<else/>
+						{$v.name}({$v.remark})
+					</if>
+				</td>
+				<td>
+				<if condition='$v["admin_name"] eq C("RBAC_SUPERADMIN")'>
+					<span style="color:red; font-weight:bold;">暂无权限操作</span>
+				<else />
+					<if condition='$v["status"] eq 1'>
+						<a href="{:U('Rbac/status',array('id'=>$v['id'],'status'=>$v['status']))}">[锁定]</a>
+					<else />
+						<a href="{:U('Rbac/status',array('id'=>$v['id'],'status'=>$v['status']))}">[启用]</a>
+					</if>
+					<a href="{:U('Rbac/adminEdit',array('id'=>$v['id'],'status'=>$v['status']))}">[修改]</a>
+				</if>
+				</td>
+			</tr>
+		</volist>
+	</table>
+  	<script>
+    $(function () {
+        
+		$('#addnew').click(function(){
+
+				window.location.href="{:U('Rbac/adminAdd')}";
+		 });
+
+
+    });
+	</script>
+ </body>
+</html>
