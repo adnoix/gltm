@@ -69,12 +69,12 @@
                     ]
                 }]
           },{
-            id:'admin',
-            homePage : 'adminList',
+            id:'User',
+            homePage : 'userList',
             menu:[{
                 text:'用户管理',
                 items:[
-                  {id:'adminList',text:'用户列表',href:'#'},
+                  {id:'userList',text:'用户列表',href:'/gltm/User/userList'},
                 ]
               }]
           }];

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2016-06-27 14:01:43
+Date: 2016-06-29 09:54:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -19,10 +19,13 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_aboutus`;
 CREATE TABLE `gltm_aboutus` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `detail` text CHARACTER SET utf8 COMMENT '关于我们内容',
-  `ctime` int(11) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  `aboutus_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `aboutus_detail` text CHARACTER SET utf8 COMMENT '关于我们内容',
+  `aboutus_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
+  `aboutus_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
+  `aboutus_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
+  `aboutus_modify_time` int(11) DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`aboutus_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -34,13 +37,13 @@ CREATE TABLE `gltm_aboutus` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_admin`;
 CREATE TABLE `gltm_admin` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `admin_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `admin_name` varchar(20) CHARACTER SET utf8 NOT NULL COMMENT '登录名',
   `admin_pwd` varchar(40) CHARACTER SET utf8 NOT NULL COMMENT '密码',
-  `last_time` int(11) DEFAULT NULL COMMENT '最后登录时间',
-  `login_ip` varchar(20) CHARACTER SET utf8 NOT NULL COMMENT '登录IP',
-  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态，1启用，2禁用',
-  PRIMARY KEY (`id`)
+  `admin_last_time` int(11) DEFAULT NULL COMMENT '最后登录时间',
+  `admin_login_ip` varchar(20) CHARACTER SET utf8 NOT NULL COMMENT '登录IP',
+  `admin_status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态，1启用，2禁用',
+  PRIMARY KEY (`admin_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -53,11 +56,14 @@ INSERT INTO gltm_admin VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3',
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_area`;
 CREATE TABLE `gltm_area` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `area_id` int(11) NOT NULL AUTO_INCREMENT,
   `area_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '地区名称',
-  `pid` int(11) DEFAULT NULL COMMENT '父id',
-  `sort` int(11) DEFAULT NULL COMMENT '排序',
-  PRIMARY KEY (`id`)
+  `area_pid` int(11) DEFAULT NULL COMMENT '父id',
+  `area_sort` int(11) DEFAULT NULL COMMENT '排序',
+  `area_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者名称',
+  `area_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
+  `area_modify_time` int(11) DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`area_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -69,17 +75,18 @@ CREATE TABLE `gltm_area` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_comment`;
 CREATE TABLE `gltm_comment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sid` int(11) DEFAULT NULL COMMENT '景点id',
-  `type` int(11) DEFAULT NULL COMMENT '类型 1-景点 2-景区',
+  `comment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `comment_sid` int(11) DEFAULT NULL COMMENT '景点id',
+  `comment_type` int(11) DEFAULT NULL COMMENT '类型 1-景点 2-景区',
   `comment_detail` text CHARACTER SET utf8 COMMENT '评论内容',
   `comment_uid` int(11) DEFAULT NULL COMMENT '用户id',
-  `score_all` int(11) DEFAULT NULL COMMENT '评分',
-  `scenery_score` int(11) DEFAULT NULL COMMENT '景色评分',
-  `service_score` int(11) DEFAULT NULL COMMENT '服务评分',
-  `public_score` int(11) DEFAULT NULL COMMENT '公共设施评分',
+  `comment_score_all` int(11) DEFAULT NULL COMMENT '评分',
+  `comment_scenery_score` int(11) DEFAULT NULL COMMENT '景色评分',
+  `comment_service_score` int(11) DEFAULT NULL COMMENT '服务评分',
+  `comment_public_score` int(11) DEFAULT NULL COMMENT '公共设施评分',
+  `comment_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '评论者ip',
   `comment_ctime` int(11) DEFAULT NULL COMMENT '评论时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`comment_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -91,11 +98,11 @@ CREATE TABLE `gltm_comment` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_comment_img`;
 CREATE TABLE `gltm_comment_img` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `cid` int(11) DEFAULT NULL COMMENT '评论id',
-  `img` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '评论图片地址',
-  `ctime` int(11) DEFAULT NULL COMMENT '时间',
-  PRIMARY KEY (`id`)
+  `comment_img_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `comment_img_cid` int(11) DEFAULT NULL COMMENT '评论id',
+  `comment_img_img` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '评论图片地址',
+  `comment_img_ctime` int(11) DEFAULT NULL COMMENT '时间',
+  PRIMARY KEY (`comment_img_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -107,11 +114,12 @@ CREATE TABLE `gltm_comment_img` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_favorite`;
 CREATE TABLE `gltm_favorite` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `sid` int(11) DEFAULT NULL COMMENT '景点id',
-  `uid` int(11) DEFAULT NULL COMMENT '用户id',
-  `ctime` int(11) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  `favorite_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `favorite_sid` int(11) DEFAULT NULL COMMENT '景点id',
+  `favorite_uid` int(11) DEFAULT NULL COMMENT '用户id',
+  `favorite_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '收藏者ip',
+  `favorite_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`favorite_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -123,13 +131,14 @@ CREATE TABLE `gltm_favorite` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_feedback`;
 CREATE TABLE `gltm_feedback` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `feedback_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `feedback_detail` text CHARACTER SET utf8 COMMENT '反馈详情',
-  `email` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '邮箱',
-  `phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '手机号',
-  `uid` int(11) DEFAULT NULL COMMENT '用户id',
-  `ctime` int(11) DEFAULT NULL COMMENT '时间',
-  PRIMARY KEY (`id`)
+  `feedback_email` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '邮箱',
+  `feedback_phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '手机号',
+  `feedback_uid` int(11) DEFAULT NULL COMMENT '用户id',
+  `feedback_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '反馈者ip',
+  `feedback_ctime` int(11) DEFAULT NULL COMMENT '时间',
+  PRIMARY KEY (`feedback_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -141,7 +150,7 @@ CREATE TABLE `gltm_feedback` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_line`;
 CREATE TABLE `gltm_line` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `line_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `line_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '线路名称',
   `line_level` int(11) DEFAULT NULL COMMENT '线路等级',
   `line_day` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '游玩天数',
@@ -152,7 +161,9 @@ CREATE TABLE `gltm_line` (
   `line_detail` text CHARACTER SET utf8 COMMENT '行程详情',
   `line_longitude` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '经度',
   `line_latitude` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '纬度',
-  PRIMARY KEY (`id`)
+  `line_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
+  `line_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
+  PRIMARY KEY (`line_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -165,9 +176,9 @@ CREATE TABLE `gltm_line` (
 DROP TABLE IF EXISTS `gltm_login`;
 CREATE TABLE `gltm_login` (
   `login_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `uid` int(11) NOT NULL COMMENT '用户UID',
-  `oauth_token` varchar(150) CHARACTER SET utf8 DEFAULT NULL COMMENT '授权账号',
-  `oauth_token_secret` varchar(150) CHARACTER SET utf8 DEFAULT NULL COMMENT '授权密码',
+  `login_uid` int(11) NOT NULL COMMENT '用户UID',
+  `login_oauth_token` varchar(150) CHARACTER SET utf8 DEFAULT NULL COMMENT '授权账号',
+  `login_oauth_token_secret` varchar(150) CHARACTER SET utf8 DEFAULT NULL COMMENT '授权密码',
   PRIMARY KEY (`login_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
@@ -180,10 +191,13 @@ CREATE TABLE `gltm_login` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_scenicarea`;
 CREATE TABLE `gltm_scenicarea` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `scenicarea_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `scenicarea_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '景区名称',
-  `ctime` int(11) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  `scenicarea_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
+  `scenicarea_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
+  `scenicarea_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
+  `scenicarea_time` int(11) DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`scenicarea_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -195,10 +209,10 @@ CREATE TABLE `gltm_scenicarea` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_sms`;
 CREATE TABLE `gltm_sms` (
-  `phone` varchar(50) CHARACTER SET utf8 NOT NULL COMMENT '手机号码',
-  `code` int(5) NOT NULL DEFAULT '0' COMMENT '验证码',
-  `message` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '消息',
-  `time` varchar(20) CHARACTER SET utf8 NOT NULL COMMENT '时间'
+  `sms_phone` varchar(50) CHARACTER SET utf8 NOT NULL COMMENT '手机号码',
+  `sms_code` int(5) NOT NULL DEFAULT '0' COMMENT '验证码',
+  `sms_message` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '消息',
+  `sms_time` varchar(20) CHARACTER SET utf8 NOT NULL COMMENT '时间'
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -210,26 +224,28 @@ CREATE TABLE `gltm_sms` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_spot`;
 CREATE TABLE `gltm_spot` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `spot_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `spot_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '景点名称',
   `spot_img` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '景点图片',
-  `area_id` int(11) DEFAULT NULL COMMENT '地区id',
-  `scenicarea_id` int(11) DEFAULT NULL COMMENT '景区id',
+  `spot_area_id` int(11) DEFAULT NULL COMMENT '地区id',
+  `spot_scenicarea_id` int(11) DEFAULT NULL COMMENT '景区id',
   `spot_level` int(11) DEFAULT NULL COMMENT '景点等级',
   `spot_price` int(11) DEFAULT NULL COMMENT '门票价格',
   `spot_limit` int(11) DEFAULT NULL COMMENT '人数预警值',
-  `advise_time` text CHARACTER SET utf8 COMMENT '建议游玩时间',
+  `spot_advise_time` text CHARACTER SET utf8 COMMENT '建议游玩时间',
   `spot_tel` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '景点电话',
   `spot_address` text CHARACTER SET utf8 COMMENT '景点地址',
   `spot_favorite` int(11) DEFAULT NULL COMMENT '景点收藏数',
   `spot_comment` int(11) DEFAULT NULL COMMENT '评论数',
   `spot_culture` text CHARACTER SET utf8 COMMENT '风情文化',
   `spot_introduce` text CHARACTER SET utf8 COMMENT '景点简介',
-  `recommend` int(11) DEFAULT '0' COMMENT '是否推荐 0-不推荐 1-推荐',
+  `spot_recommend` int(11) DEFAULT '0' COMMENT '是否推荐 0-不推荐 1-推荐',
   `spot_longitude` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '经度',
   `spot_latitude` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '纬度',
-  `ctime` int(11) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  `spot_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
+  `spot_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者IP',
+  `spot_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`spot_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -241,14 +257,16 @@ CREATE TABLE `gltm_spot` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_spot_img`;
 CREATE TABLE `gltm_spot_img` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `sid` int(11) DEFAULT NULL COMMENT '景点id',
-  `img_src` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '景点图片地址',
-  `favorite` int(11) DEFAULT '0' COMMENT '点赞数',
-  `img_detail` text CHARACTER SET utf8 COMMENT '图片描述',
-  `img_season` int(11) DEFAULT '0' COMMENT '季节 1-春 2-夏 3-秋 4-东',
-  `img_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  `spot_img_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `spot_img_sid` int(11) DEFAULT NULL COMMENT '景点id',
+  `spot_img_src` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '景点图片地址',
+  `spot_img_favorite` int(11) DEFAULT '0' COMMENT '点赞数',
+  `spot_img_detail` text CHARACTER SET utf8 COMMENT '图片描述',
+  `spot_img_season` int(11) DEFAULT '0' COMMENT '季节 1-春 2-夏 3-秋 4-东',
+  `spot_img_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
+  `spot_img_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
+  `spot_img_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`spot_img_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -260,12 +278,14 @@ CREATE TABLE `gltm_spot_img` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_spot_slide`;
 CREATE TABLE `gltm_spot_slide` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `sid` int(11) DEFAULT NULL COMMENT '景点id',
+  `slide_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `slide_sid` int(11) DEFAULT NULL COMMENT '景点id',
   `slide_img` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '景点图片地址',
-  `type` int(11) DEFAULT NULL COMMENT '类型 1-景点 2-景区',
+  `slide_type` int(11) DEFAULT NULL COMMENT '类型 1-景点 2-景区',
+  `slide_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
+  `slide_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
   `slide_ctime` int(11) DEFAULT NULL COMMENT '添加时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`slide_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -277,15 +297,17 @@ CREATE TABLE `gltm_spot_slide` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_spot_video`;
 CREATE TABLE `gltm_spot_video` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `sid` int(11) DEFAULT NULL COMMENT '景点id',
+  `video_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `video_sid` int(11) DEFAULT NULL COMMENT '景点id',
   `video_src` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '视频地址',
   `video_type` int(11) DEFAULT '0' COMMENT '季节 1-春 2-夏 3-秋 4-冬',
   `video_detail` text COMMENT '视频详情',
   `video_time` int(11) DEFAULT NULL COMMENT '视频时长',
   `video_favorite` int(11) DEFAULT NULL COMMENT '点赞数',
+  `video_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
+  `video_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
   `video_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`video_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -297,12 +319,14 @@ CREATE TABLE `gltm_spot_video` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_spot_voice`;
 CREATE TABLE `gltm_spot_voice` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `sid` int(11) DEFAULT NULL COMMENT '景点id',
+  `voice_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `voice_sid` int(11) DEFAULT NULL COMMENT '景点id',
   `voice_src` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '语音地址',
   `voice_type` int(11) DEFAULT NULL COMMENT '类型 1-语音 2-入口 3-厕所 4-出口',
+  `voice_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
+  `voice_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
   `voice_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`voice_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -314,8 +338,8 @@ CREATE TABLE `gltm_spot_voice` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_user`;
 CREATE TABLE `gltm_user` (
-  `uid` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `user_phone` int(11) DEFAULT NULL COMMENT '手机号',
+  `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `user_phone` varchar(50) DEFAULT NULL COMMENT '手机号',
   `user_password` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '密码',
   `user_salt` char(5) CHARACTER SET utf8 DEFAULT NULL COMMENT '10000 到 99999之间的随机数，加密密码时使用',
   `user_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '昵称',
@@ -326,9 +350,10 @@ CREATE TABLE `gltm_user` (
   `user_ctime` int(11) DEFAULT NULL COMMENT '注册时间',
   `user_longitude` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '经度',
   `user_latitude` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '纬度',
-  PRIMARY KEY (`uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+  PRIMARY KEY (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=gbk;
 
 -- ----------------------------
 -- Records of gltm_user
 -- ----------------------------
+INSERT INTO gltm_user VALUES ('1', '13836124692', '123456', '11111', '盆盆', null, '13836124692@163.com', '1', '127.0.0.1', null, null, null);
