@@ -19,18 +19,18 @@ class LoginController extends Controller
             $adminObj = M("Admin");
             $adminWhere['admin_name'] = I('post.user_name');
             $adminWhere['admin_pwd'] =md5( I('post.phone_mm'));
-            $adminWhere['status'] = 1; //用户状态
+            $adminWhere['admin_status'] = 1; //用户状态
             $admin = $adminObj->where($adminWhere)->find();
             if (empty($admin)) {
                 $this->error("登陆失败", U("Login/login"));
             } else {
-                session(C('USER_AUTH_KEY'), $admin['id']);
+                session(C('USER_AUTH_KEY'), $admin['admin_id']);
                 session("A_NAME", $admin['admin_name']); //生成session
-                session("A_ID", $admin['id']);
+                session("A_ID", $admin['admin_id']);
                 //修改最后登录时间和IP
                 $adminSave = array(
-                    "last_time" => time(), //最后登录时间
-                    "login_ip" => get_client_ip(), //登录IP地址
+                    "admin_last_time" => time(), //最后登录时间
+                    "admin_login_ip" => get_client_ip(), //登录IP地址
                 );
                 $saveAdmin = $adminObj->where($adminWhere)->save($adminSave);
 

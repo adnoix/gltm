@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2016-06-29 10:32:00
+Date: 2016-06-29 17:23:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -48,7 +48,7 @@ CREATE TABLE `gltm_admin` (
 -- ----------------------------
 -- Records of gltm_admin
 -- ----------------------------
-INSERT INTO gltm_admin VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', '1467006269', '127.0.0.1', '1');
+INSERT INTO gltm_admin VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', '1467167961', '127.0.0.1', '1');
 
 -- ----------------------------
 -- Table structure for `gltm_area`
@@ -180,11 +180,13 @@ CREATE TABLE `gltm_login` (
   `login_oauth_token` varchar(150) CHARACTER SET utf8 DEFAULT NULL COMMENT '授权账号',
   `login_oauth_token_secret` varchar(150) CHARACTER SET utf8 DEFAULT NULL COMMENT '授权密码',
   PRIMARY KEY (`login_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=gbk;
 
 -- ----------------------------
 -- Records of gltm_login
 -- ----------------------------
+INSERT INTO gltm_login VALUES ('3', '1', '49fe9043d1ce29926b60a4d80acb8589', '43fbbd5379bded9d2756fb3b6e107574');
+INSERT INTO gltm_login VALUES ('4', '3', '1a6b1de50e25fde751ec77a19df74b1b', '2708d1e90595292114111f28fbb5390b');
 
 -- ----------------------------
 -- Table structure for `gltm_scenicarea`
@@ -208,15 +210,20 @@ CREATE TABLE `gltm_scenicarea` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_sms`;
 CREATE TABLE `gltm_sms` (
+  `sms_id` int(11) NOT NULL AUTO_INCREMENT,
   `sms_phone` varchar(50) CHARACTER SET utf8 NOT NULL COMMENT '手机号码',
   `sms_code` int(5) NOT NULL DEFAULT '0' COMMENT '验证码',
   `sms_message` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '消息',
-  `sms_time` varchar(20) CHARACTER SET utf8 NOT NULL COMMENT '时间'
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+  `sms_time` varchar(20) CHARACTER SET utf8 NOT NULL COMMENT '时间',
+  PRIMARY KEY (`sms_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=gbk;
 
 -- ----------------------------
 -- Records of gltm_sms
 -- ----------------------------
+INSERT INTO gltm_sms VALUES ('1', '13836124692', '7866', '注册验证码', '1467185231');
+INSERT INTO gltm_sms VALUES ('2', '13836124692', '4585', '找回验证码', '1467190561');
+INSERT INTO gltm_sms VALUES ('3', '13836124692', '1723', '找回验证码', '1467191382');
 
 -- ----------------------------
 -- Table structure for `gltm_spot`
@@ -349,10 +356,12 @@ CREATE TABLE `gltm_user` (
   `user_ctime` int(11) DEFAULT NULL COMMENT '注册时间',
   `user_longitude` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '经度',
   `user_latitude` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '纬度',
-  PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=gbk;
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `name` (`user_name`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=gbk;
 
 -- ----------------------------
 -- Records of gltm_user
 -- ----------------------------
-INSERT INTO gltm_user VALUES ('1', '13836124692', '123456', '11111', '盆盆', null, '13836124692@163.com', '1', '127.0.0.1', null, null, null);
+INSERT INTO gltm_user VALUES ('1', '13836124693', 'd46b5dd007cca4ad3ee2a521dd26dcb3', '11111', '盆盆', null, '13836124692@163.com', '1', '127.0.0.1', null, null, null);
+INSERT INTO gltm_user VALUES ('3', '13836124692', 'c8929accccba45e09481353d863c44af', '55626', null, null, null, '0', '', '1467189151', '', '');
