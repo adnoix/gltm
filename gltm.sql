@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2016-06-29 09:54:22
+Date: 2016-06-29 10:32:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,7 +21,6 @@ DROP TABLE IF EXISTS `gltm_aboutus`;
 CREATE TABLE `gltm_aboutus` (
   `aboutus_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `aboutus_detail` text CHARACTER SET utf8 COMMENT '关于我们内容',
-  `aboutus_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
   `aboutus_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
   `aboutus_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
   `aboutus_modify_time` int(11) DEFAULT NULL COMMENT '修改时间',
@@ -100,7 +99,7 @@ DROP TABLE IF EXISTS `gltm_comment_img`;
 CREATE TABLE `gltm_comment_img` (
   `comment_img_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `comment_img_cid` int(11) DEFAULT NULL COMMENT '评论id',
-  `comment_img_img` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '评论图片地址',
+  `comment_img_src` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '评论图片地址',
   `comment_img_ctime` int(11) DEFAULT NULL COMMENT '时间',
   PRIMARY KEY (`comment_img_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
@@ -163,6 +162,7 @@ CREATE TABLE `gltm_line` (
   `line_latitude` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '纬度',
   `line_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
   `line_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
+  `line_modify_time` int(11) DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`line_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
@@ -193,7 +193,6 @@ DROP TABLE IF EXISTS `gltm_scenicarea`;
 CREATE TABLE `gltm_scenicarea` (
   `scenicarea_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `scenicarea_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '景区名称',
-  `scenicarea_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
   `scenicarea_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
   `scenicarea_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
   `scenicarea_time` int(11) DEFAULT NULL COMMENT '修改时间',
@@ -278,14 +277,14 @@ CREATE TABLE `gltm_spot_img` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_spot_slide`;
 CREATE TABLE `gltm_spot_slide` (
-  `slide_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `slide_sid` int(11) DEFAULT NULL COMMENT '景点id',
-  `slide_img` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '景点图片地址',
-  `slide_type` int(11) DEFAULT NULL COMMENT '类型 1-景点 2-景区',
-  `slide_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
-  `slide_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
-  `slide_ctime` int(11) DEFAULT NULL COMMENT '添加时间',
-  PRIMARY KEY (`slide_id`)
+  `spot_slide_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `spot_slide_sid` int(11) DEFAULT NULL COMMENT '景点id',
+  `spot_slide_img` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '景点图片地址',
+  `spot_slide_type` int(11) DEFAULT NULL COMMENT '类型 1-景点 2-景区',
+  `spot_slide_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
+  `spot_slide_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
+  `spot_slide_ctime` int(11) DEFAULT NULL COMMENT '添加时间',
+  PRIMARY KEY (`spot_slide_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -297,17 +296,17 @@ CREATE TABLE `gltm_spot_slide` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_spot_video`;
 CREATE TABLE `gltm_spot_video` (
-  `video_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `video_sid` int(11) DEFAULT NULL COMMENT '景点id',
-  `video_src` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '视频地址',
-  `video_type` int(11) DEFAULT '0' COMMENT '季节 1-春 2-夏 3-秋 4-冬',
-  `video_detail` text COMMENT '视频详情',
-  `video_time` int(11) DEFAULT NULL COMMENT '视频时长',
-  `video_favorite` int(11) DEFAULT NULL COMMENT '点赞数',
-  `video_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
-  `video_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
-  `video_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`video_id`)
+  `spot_video_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `spot_video_sid` int(11) DEFAULT NULL COMMENT '景点id',
+  `spot_video_src` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '视频地址',
+  `spot_video_type` int(11) DEFAULT '0' COMMENT '季节 1-春 2-夏 3-秋 4-冬',
+  `spot_video_detail` text COMMENT '视频详情',
+  `spot_video_time` int(11) DEFAULT NULL COMMENT '视频时长',
+  `spot_video_favorite` int(11) DEFAULT NULL COMMENT '点赞数',
+  `spot_video_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
+  `spot_video_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
+  `spot_video_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`spot_video_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
@@ -319,14 +318,14 @@ CREATE TABLE `gltm_spot_video` (
 -- ----------------------------
 DROP TABLE IF EXISTS `gltm_spot_voice`;
 CREATE TABLE `gltm_spot_voice` (
-  `voice_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `voice_sid` int(11) DEFAULT NULL COMMENT '景点id',
-  `voice_src` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '语音地址',
-  `voice_type` int(11) DEFAULT NULL COMMENT '类型 1-语音 2-入口 3-厕所 4-出口',
-  `voice_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
-  `voice_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
-  `voice_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`voice_id`)
+  `spot_voice_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `spot_voice_sid` int(11) DEFAULT NULL COMMENT '景点id',
+  `spot_voice_src` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '语音地址',
+  `spot_voice_type` int(11) DEFAULT NULL COMMENT '类型 1-语音 2-入口 3-厕所 4-出口',
+  `spot_voice_modify_user` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者姓名',
+  `spot_voice_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
+  `spot_voice_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`spot_voice_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 -- ----------------------------
