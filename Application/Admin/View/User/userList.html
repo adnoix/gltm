@@ -3,17 +3,43 @@
 <head>
     <title> 详情页</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Css/style.css" />
     <link href="__PUBLIC__/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
     <link href="__PUBLIC__/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
     <link href="__PUBLIC__/assets/css/page-min.css" rel="stylesheet" type="text/css" />
+    <css file='__PUBLIC__/Css/page.css' />
 </head>
 <body>
 <div class="container">
     <div class="detail-page">
-
-            <div id="grid"></div>
-            </div>
-    </div>
+        <table class="table table-bordered table-hover definewidth m10" style="margin-left:25px;">
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>姓名</th>
+                <th>手机号</th>
+                <th>邮箱</th>
+                <th>注册时间</th>
+            </tr>
+            </thead>
+            <foreach name="list" item="vo">
+                <tr>
+                    <td>{$vo.user_id}</td>
+                    <td>{$vo.user_name}</td>
+                    <td>{$vo.user_phone}</td>
+                    <td>{$vo.user_email}</td>
+                    <td>{$vo.user_ctime|date='Y-m-d',###}</td>
+                    <td>
+                        【<a href="{:U('Store/storeEdit',array('id'=>$v['id']))}">修改</a>】
+                        【<a href="{:U('Store/storeDel',array('id'=>$v['id']))}">删除</a>】
+                    </td>
+                </tr>
+            </foreach>
+        </table>
+    <div class="sabrosus"><!--分页-->
+        {$page}
+    </div><!--分页-->
 </div>
 <script type="text/javascript" src="__PUBLIC__/assets/js/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/assets/js/bui-min.js"></script>
@@ -29,26 +55,7 @@
 </script>
 
 <script type="text/javascript">
-    BUI.use('bui/grid',function (Grid) {
-        var data = [<volist name="list" id="vo">
-                    {id:"{$vo.uid}",name:"{$vo.user_name}",phone:"{$vo.user_phone}",email:"{$vo.user_email}",ctime:"{$vo.user_ctime}"}
-                     </volist>
-                    ],
 
-                grid = new Grid.SimpleGrid({
-                    render : '#grid', //显示Grid到此处
-                    width : 950,      //设置宽度
-                    columns : [
-                        {title:'编号',dataIndex:'id',width:80},
-                        {title:'姓名',dataIndex:'name',width:100},
-                        {title:'手机号',dataIndex:'phone',width:100,renderer:Grid.Format.dateRenderer},
-                        {title:'邮箱',dataIndex:'email',width:300},
-                        {title:'注册时间',dataIndex:'ctime',width:300}
-                    ]
-                });
-        grid.render();
-        grid.showData(data);
-    });
     //此处实现 js 代码
 </script>
 
