@@ -31,8 +31,7 @@
                     <td>{$vo.user_email}</td>
                     <td>{$vo.user_ctime|date='Y-m-d',###}</td>
                     <td>
-                        【<a href="{:U('Store/storeEdit',array('id'=>$v['id']))}">修改</a>】
-                        【<a href="{:U('Store/storeDel',array('id'=>$v['id']))}">删除</a>】
+                        【<a     onclick="del({$vo.user_id})">删除</a>】
                     </td>
                 </tr>
             </foreach>
@@ -55,7 +54,28 @@
 </script>
 
 <script type="text/javascript">
-
+    function disp_confirm(uid)
+    {
+        var uid=uid;
+        var r=confirm("确定删除吗")
+        if (r==true)
+        {
+           location.href="User/userDel/id/uid"
+        }
+        else
+        {
+            document.write("You pressed Cancel!")
+        }
+    }
+    function del(id) {
+        //询问框
+        var url = "{:U('User/userDel/id/"+id+"');}";
+        var r=confirm('确定删除');
+        if (r==true)
+        {
+            location.href=url
+        }
+    }
     //此处实现 js 代码
 </script>
 

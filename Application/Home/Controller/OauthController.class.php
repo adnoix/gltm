@@ -243,13 +243,6 @@ class OauthController extends CommonController
             $this->apiReturn('error','修改失败');
         }
     }
-    /**
-     * 验证字符串是否是手机号 --using
-     * @param varchar phone 手机号
-     * @return boolean
-     */
-    public function isValidPhone($phone) {
-        return preg_match("/^[1][3578]\d{9}$/", $phone) !== 0;
-    }
+
 
 }

@@ -14,6 +14,14 @@ class UserController extends CommonController {
             $this->assign("list",$list);
             $this->display();
         }
-
-
+      public function userDel(){
+            $uid=I('get.id');
+            $result1=M('User')->where("user_id =".$uid)->delete();
+            $result12=M('login')->where("login_uid =".$uid)->delete();
+          if($result1){
+              $this->success('删除成功',U("User/userList"));
+          }else{
+              $this->error('删除失败');
+          }
+      }
 }
