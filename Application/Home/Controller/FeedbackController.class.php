@@ -22,7 +22,7 @@ class FeedbackController extends CommonController
     /**
          * 用户反馈 --
          * @param varchar login_oauth_token
-         * @param varchar login_oauth_token
+         * @param varchar login_oauth_token_secret
          * @param varchar feedbackdetail
                             * feedback_ip
          * @param varchar feedbackcontact
