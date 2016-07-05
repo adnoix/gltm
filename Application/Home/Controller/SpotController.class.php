@@ -245,16 +245,16 @@ class SpotController extends CommonController
         $spot_id = $_REQUEST['spot_id'] ? intval($_REQUEST['spot_id']) : 0;
         $season = $_REQUEST['season'] ? intval($_REQUEST['season']) : 0;
         $start = ($page - 1) * $count;
-        $img=M('spot_video');
-        $count=$img->where('spot_video_sid ='.$spot_id.' and spot_img_type ='.$season)->count();
-        $imglist=$img->field('spot_video_id,spot_video_sid,spot_video_src,spot_video_favorite,spot_video_detail,spot_video_season,spot_img_ctime')->where('spot_img_sid ='.$spot_id.' and spot_img_season ='.$season)->order('spot_img_ctime desc')->limit($start, $count)->select();
-        $img_count=array();
-        $img_count[0]['img_count']=$count;
-        $imglist=array_merge($img_count,$imglist);
-        if (empty($imglist)) {
+        $video=M('spot_video');
+        $count=$video->where('spot_video_sid ='.$spot_id.' and spot_img_type ='.$season)->count();
+        $videolist=$video->field('spot_video_id,spot_video_sid,spot_video_src,spot_video_favorite,spot_video_detail,spot_video_season,spot_img_ctime')->where('spot_img_sid ='.$spot_id.' and spot_img_season ='.$season)->order('spot_img_ctime desc')->limit($start, $count)->select();
+        $video_count=array();
+        $video_count[0]['video_count']=$count;
+        $videolist=array_merge($video_count,$videolist);
+        if (empty($videolist)) {
             $this->apiReturn('error', '暂无数据');
         } else {
-            $this->apiReturn('success', '查询成功', $imglist);
+            $this->apiReturn('success', '查询成功', $videolist);
         }
     }
 

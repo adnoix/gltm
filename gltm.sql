@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2016-06-29 17:23:31
+Date: 2016-07-05 13:25:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -48,7 +48,7 @@ CREATE TABLE `gltm_admin` (
 -- ----------------------------
 -- Records of gltm_admin
 -- ----------------------------
-INSERT INTO gltm_admin VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', '1467167961', '127.0.0.1', '1');
+INSERT INTO gltm_admin VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', '1467695533', '127.0.0.1', '1');
 
 -- ----------------------------
 -- Table structure for `gltm_area`
@@ -132,8 +132,7 @@ DROP TABLE IF EXISTS `gltm_feedback`;
 CREATE TABLE `gltm_feedback` (
   `feedback_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `feedback_detail` text CHARACTER SET utf8 COMMENT '反馈详情',
-  `feedback_email` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '邮箱',
-  `feedback_phone` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '手机号',
+  `feedback_contact` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '联系方式',
   `feedback_uid` int(11) DEFAULT NULL COMMENT '用户id',
   `feedback_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '反馈者ip',
   `feedback_ctime` int(11) DEFAULT NULL COMMENT '时间',
@@ -185,7 +184,6 @@ CREATE TABLE `gltm_login` (
 -- ----------------------------
 -- Records of gltm_login
 -- ----------------------------
-INSERT INTO gltm_login VALUES ('3', '1', '49fe9043d1ce29926b60a4d80acb8589', '43fbbd5379bded9d2756fb3b6e107574');
 INSERT INTO gltm_login VALUES ('4', '3', '1a6b1de50e25fde751ec77a19df74b1b', '2708d1e90595292114111f28fbb5390b');
 
 -- ----------------------------
@@ -252,11 +250,14 @@ CREATE TABLE `gltm_spot` (
   `spot_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者IP',
   `spot_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`spot_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=gbk;
 
 -- ----------------------------
 -- Records of gltm_spot
 -- ----------------------------
+INSERT INTO gltm_spot VALUES ('3', '四惠地铁站', 'http://localhost/gltm/public/img/Lighthouse.jpg', null, null, '3', '100', '4', '998797979797978', '88888888', '北京', '2000', '2000', null, null, '0', '116.5019450000', '39.9148600000', null, null, null);
+INSERT INTO gltm_spot VALUES ('2', '天安门', 'http://localhost/gltm/public/img/Lighthouse.jpg', null, null, '4', '100', '2', '9', '555555', '北京', '1000', '1000', null, null, '0', '116.4039580000', '39.9150490000', null, null, null);
+INSERT INTO gltm_spot VALUES ('4', 'aaa', null, null, null, '2', null, null, null, null, null, null, null, null, null, '0', '116.5019490000', '39.9149600000', null, null, null);
 
 -- ----------------------------
 -- Table structure for `gltm_spot_img`
@@ -273,11 +274,16 @@ CREATE TABLE `gltm_spot_img` (
   `spot_img_modify_ip` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '修改者ip',
   `spot_img_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`spot_img_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=gbk;
 
 -- ----------------------------
 -- Records of gltm_spot_img
 -- ----------------------------
+INSERT INTO gltm_spot_img VALUES ('1', '2', 'http://localhost/gltm/public/img/Lighthouse.jpg', '10', 'asdasd', '1', '', '', '1467617661');
+INSERT INTO gltm_spot_img VALUES ('2', '2', 'http://localhost/gltm/public/img/Lighthouse.jpg', '11', 'asdasdasd', '2', null, null, '1467617662');
+INSERT INTO gltm_spot_img VALUES ('3', '2', 'http://localhost/gltm/public/img/Lighthouse.jpg', '50', 'sadasd', '3', null, null, '1467617663');
+INSERT INTO gltm_spot_img VALUES ('4', '2', 'http://localhost/gltm/public/img/Lighthouse.jpg', '60', 'zxczxczxc', '4', null, null, '1467617664');
+INSERT INTO gltm_spot_img VALUES ('5', '2', 'http://localhost/gltm/public/img/Lighthouse.jpg', '0', null, '1', null, null, '1467617662');
 
 -- ----------------------------
 -- Table structure for `gltm_spot_slide`
@@ -363,5 +369,4 @@ CREATE TABLE `gltm_user` (
 -- ----------------------------
 -- Records of gltm_user
 -- ----------------------------
-INSERT INTO gltm_user VALUES ('1', '13836124693', 'd46b5dd007cca4ad3ee2a521dd26dcb3', '11111', '盆盆', null, '13836124692@163.com', '1', '127.0.0.1', null, null, null);
 INSERT INTO gltm_user VALUES ('3', '13836124692', 'c8929accccba45e09481353d863c44af', '55626', null, null, null, '0', '', '1467189151', '', '');
