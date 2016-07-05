@@ -65,116 +65,45 @@
     <!--编辑器结束-->
 </head>
 <body>
-<form id="J_Form" action="{:U('Spot/spotadd')}" method="post" class="definewidth m20" enctype="multipart/form-data">
+<form id="J_Form" action="{:U('Spot/spotImg_Edit')}" method="post" class="definewidth m20" enctype="multipart/form-data">
     <table class="table table-bordered table-hover definewidth m10" >
 
         <tr>
             <td class="tableleft">景点名称</td>
             <td>
-                <input type = "text" name = "name" data-related="{required:ture}" >
+                <input type = "hidden" name = "name" data-related="{required:ture}" value="{$spotImg.spot_id}" >{$spotImg.name}
             </td>
         </tr>
         <tr>
             <td width="10%" class="tableleft">景点图片</td>
             <td>
-                <input type='file' name='img' data-rules="{required:true}" />
+                <input type='file' name='img' data-rules="{required:true}" /><img src="__ROOT__/Uploads/{$spotImg.img_src}" width="10%">
             </td>
         </tr>
         <tr>
-            <td class="tableleft">景点等级</td>
+            <td class="tableleft">图片描述</td>
             <td>
-                <input type='number' name='level' data-rules="{required:true}"  />
+                <textarea name="detail"  class="" style="width: 400px; height: 100px">{$spotImg.img_detail}</textarea>
             </td>
         </tr>
         <tr>
-            <td class="tableleft">地区</td>
+            <td class="tableleft">季节</td>
             <td>
-                <select name="area">
-                    <option value="0">--请选择地区--</option>
-                    <foreach name="area" item="row">
-                        <option value="{$row.area_id}">{$row.area_name}</option>
-                    </foreach>
+                <select name="season">
+                    <option value="0"  <if condition="$spotImg['img_season'] eq 0">selected</if>>--请选季节--</option>
+                    <option value="1" <if condition="$spotImg['img_season'] eq 1">selected</if>>春</option>
+                    <option value="2"  <if condition="$spotImg['img_season'] eq 2">selected</if>>夏</option>
+                    <option value="3"  <if condition="$spotImg['img_season'] eq 3">selected</if>>秋</option>
+                    <option value="4"  <if condition="$spotImg['img_season'] eq 4">selected</if>>冬</option>
                 </select>
-            </td>
-        </tr>
-        <tr>
-            <td class="tableleft">景区</td>
-            <td>
-                <select name="scenicarea">
-                    <option value="0">--请选择景区--</option>
-                    <foreach name="scenicarea" item="row">
-                        <option value="{$row.scenicarea_id}">{$row.scenicarea_name}</option>
-                    </foreach>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td class="tableleft">门票价格</td>
-            <td>
-                <input type='text' name='price' data-rules="{required:true}" />
-            </td>
-        </tr>
-        <tr>
-            <td class="tableleft">人数预警值</td>
-            <td>
-                <input type='number' name='limit' data-rules="{required:true}" />
-            </td>
-        </tr>
-        <tr>
-            <td class="tableleft">是否推荐</td>
-            <td>
-                <input type='radio' name='recommend'value="1" checked="checked" />推荐
-                <input type='radio' name='recommend'value="0" />不推荐
-            </td>
-        </tr>
-        <tr>
-            <td class="tableleft">游玩时间</td>
-            <td>
-                <textarea name="culture"  class="text"></textarea>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="tableleft">风情文化</td>
-            <td>
-                <textarea name="culture"  class="" style="width: 400px; height: 100px"></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td class="tableleft">景点简介</td>
-            <td>
-                <textarea name="introduce"  class="text"  ></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td class="tableleft">景点电话</td>
-            <td>
-                <textarea name="tel"  class="" style="width: 300px; height: 200px"></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td class="tableleft">景点地址</td>
-            <td>
-                <textarea name="address"  class="" style="width: 300px; height: 100px"></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td class="tableleft">经度</td>
-            <td>
-                <input type='text' name='longitude' data-rules="{required:true}" />
-            </td>
-        </tr>
-        <tr>
-            <td class="tableleft">纬度</td>
-            <td>
-                <input type='text' name='latitude' data-rules="{required:true}" />
             </td>
         </tr>
         <tr id="last">
             <td class="tableleft"></td>
             <td>
-                <input type="hidden" name="store_id" value="{$store_id}" />
-                <button type="submit" class="btn btn-primary" type="button">保存</button>
+                <input type="hidden" name="img_id" value="{$img_id}" />
+                <button type="submit" class="btn btn-primary" type="button">保存</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
             </td>
         </tr>
     </table>
@@ -183,4 +112,12 @@
 <script type="text/javascript" src="__PUBLIC__/assets/js/bui-min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/assets/js/config-min.js"></script>
 </body>
+<script>
+    $(function () {
+        $('#backid').click(function(){
+            window.location.href="{:U('Spot/spotList')}";
+        });
+
+    });
+</script>
 </html>

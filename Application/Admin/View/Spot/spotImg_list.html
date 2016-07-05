@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Css/style.css" />
+    <link href="__PUBLIC__/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="__PUBLIC__/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="__PUBLIC__/assets/css/page-min.css" rel="stylesheet" type="text/css" />
+    <css file='__PUBLIC__/Css/page.css' />
+    <style type="text/css">
+        code {
+            padding: 0px 4px;
+            color: #d14;
+            background-color: #f7f7f9;
+            border: 1px solid #e1e1e8;
+        }
+    </style>
+</head>
+<body>
+<form id='iform' class="form-inline definewidth m20" action="{:U('Spot/spotImg_list')}" method="post">
+    <input type="text" name="spot_name" placeholder="景区名称" value="{$spot_name}" />&nbsp;&nbsp;
+    <input type="submit" class="btn btn-primary" value="查询">
+</form>
+
+<table class="table table-bordered table-hover definewidth m10" style="margin-left:25px;">
+    <thead>
+    <tr>
+        <th>景区名称</th>
+        <th>景区图片</th>
+        <th>图片描述</th>
+        <th>季节</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <foreach name="spot" item="row">
+        <tr>
+            __ROOT__/Uploads/{$row.img_src}
+            <td>{$row.name}</td>
+            <td width="10%"><img src="__ROOT__/Uploads/{$row.img_src}"></td>
+            <td>{$row.img_detail}</td>
+            <td>
+                <if condition = "$row['img_season'] eq 1" >
+                    春季
+                    <elseif condition = "$row['img_season'] eq 2"/>
+                    夏季
+                    <elseif condition = "$row['img_season'] eq 3"/>
+                    秋季
+                    <else/>
+                    冬季
+                </if>
+            </td>
+            <td>
+                【<a href="{:U('Spot/spotImg_Edit',array('img_id' => $row['img_id']))}"> 修改</a>】|
+                【<a href="{:U('Spot/spotImg_Del',array('img_id' => $row['img_id']))}"> 删除</a>】
+            </td>
+        </tr>
+    </foreach>
+</table>
+<div class="sabrosus"><!--分页-->
+    {$page}
+</div><!--分页-->
+<script type="text/javascript" src="__PUBLIC__/assets/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/assets/js/bui-min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/assets/js/config-min.js"></script>
+<script type="text/javascript">
+    BUI.use('bui/form',function (Form) {
+        new Form.Form({
+            srcNode : '#iform'
+        }).render();
+    });
+</script>
+
+</body>
+</html>
