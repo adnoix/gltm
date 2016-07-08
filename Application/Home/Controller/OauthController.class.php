@@ -35,10 +35,12 @@ class OauthController extends CommonController
                 }
                 $this->apiReturn('success', '登录成功', $data);
             } else {
-                $this->apiReturn('error', '用户名或密码错误');
+                $aa=(object)array();
+                $this->apiReturn('error', '用户名或密码错误',$aa);
             }
         } else {
-            $this->apiReturn('error', '用户名或密码不能为空');
+            $aa=(object)array();
+            $this->apiReturn('error', '用户名或密码不能为空',$aa);
         }
     }
 
@@ -147,10 +149,12 @@ class OauthController extends CommonController
         $ip = I('post.ip');
         $sms = D('Sms');
         if (!$this->isValidPhone($phone)) {
-            $this->apiReturn('error', '请填写正确的手机号');
+            $aa=(object)array();
+            $this->apiReturn('error', '请填写正确的手机号',$aa);
         }
         if (!$sms->CheckCaptcha($phone, $regCode)) {
-            $this->apiReturn('error', '验证码错误');
+            $aa=(object)array();
+            $this->apiReturn('error', '验证码错误',$aa);
         }
         unset($sms);
         //开始注册
@@ -170,7 +174,8 @@ class OauthController extends CommonController
             M('login')->add($data);
             $this->apiReturn('success', '注册成功', $data);
         } else {
-            $this->apiReturn('error', '注册失败');
+            $aa=(object)array();
+            $this->apiReturn('error', '注册失败',$aa);
         }
     }
     /********找回密码*********/

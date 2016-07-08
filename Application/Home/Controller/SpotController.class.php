@@ -223,7 +223,7 @@ class SpotController extends CommonController
         $img_count=array();
         $img_count[0]['img_count']=$count;
         $imglist=array_merge($img_count,$imglist);
-        if (empty($imglist)) {
+        if ($count==0) {
             $this->apiReturn('error', '暂无数据');
         } else {
             $this->apiReturn('success', '查询成功', $imglist);
@@ -246,17 +246,70 @@ class SpotController extends CommonController
         $season = $_REQUEST['season'] ? intval($_REQUEST['season']) : 0;
         $start = ($page - 1) * $count;
         $video=M('spot_video');
-        $count=$video->where('spot_video_sid ='.$spot_id.' and spot_img_type ='.$season)->count();
-        $videolist=$video->field('spot_video_id,spot_video_sid,spot_video_src,spot_video_favorite,spot_video_detail,spot_video_season,spot_img_ctime')->where('spot_img_sid ='.$spot_id.' and spot_img_season ='.$season)->order('spot_img_ctime desc')->limit($start, $count)->select();
+        $count=$video->where('spot_video_sid ='.$spot_id.' and spot_video_type ='.$season)->count();
+        $videolist=$video->field('spot_video_id,spot_video_sid,spot_video_src,spot_video_favorite,spot_video_detail,spot_video_type,spot_video_ctime')->where('spot_video_sid ='.$spot_id.' and spot_video_type ='.$season)->order('spot_video_ctime desc')->limit($start, $count)->select();
         $video_count=array();
         $video_count[0]['video_count']=$count;
         $videolist=array_merge($video_count,$videolist);
-        if (empty($videolist)) {
+        if ($count==0) {
             $this->apiReturn('error', '暂无数据');
         } else {
             $this->apiReturn('success', '查询成功', $videolist);
         }
     }
+    /**
+     * 收藏景点 --
+     * @param varchar login_oauth_token
+     * @param varchar login_oauth_token_secret
+     * @param int sid 景点id
+     * @param int ip ip
+     * @return array 状态+提示
+     */
+    public function spot_favorite(){
+        $ip=addslashes($_REQUEST['ip']);
+        $sid =  intval($_REQUEST['sid']);
+        $uid = $this->userid;
+        $favoritelist=M('favorite')->where('favorite_sid ='.$sid.' and favorite_uid ='.$uid)->select();
+        if(empty($favoritelist)){
+            $data['favorite_sid']=$sid;
+            $data['favorite_uid']=$uid;
+            $data['favorite_ip']=$ip;
+            $data['favorite_ctime']=time();
+            $result=M('favorite')->add($data);
+            if($result){
+                $this->apiReturn('success', '收藏成功');
+            }else{
+                $this->apiReturn('success', '收藏失败');
+            }
+        }else{
+            $this->apiReturn('error', '您已收藏过该景点');
+        }
+    }
+    /**
+     * 收藏景点 --
+     * @param varchar login_oauth_token
+     * @param varchar login_oauth_token_secret
+     * @param int sid 景点id
+     * @return array 状态+提示
+     */
+    public function spot_unfavorite(){
+        $sid =  intval($_REQUEST['sid']);
+        $uid = $this->userid;
+        $favoritelist=M('favorite')->where('favorite_sid ='.$sid.' and favorite_uid ='.$uid)->select();
+        if(!empty($favoritelist)){
+            $data['favorite_sid']=$sid;
+            $data['favorite_uid']=$uid;
+            $result=M('favorite')->where($data)->delete();
+            if($result){
+                $this->apiReturn('success', '取消收藏成功');
+            }else{
+                $this->apiReturn('success', '取消收藏失败');
+            }
+        }else{
+            $this->apiReturn('error', '您未收藏过该景点');
+        }
+    }
+
 
 
 }
