@@ -51,14 +51,25 @@ class OauthController extends CommonController
      */
     public function logout()
     {
+        $login_oauth_token = addslashes($_REQUEST['login_oauth_token']);
+        $login_oauth_token_secret = addslashes($_REQUEST['login_oauth_token_secret']);
+        $map = array();
+        $map['login_oauth_token'] = $login_oauth_token;
+        $map['login_oauth_token_secret'] = $login_oauth_token_secret;
+        $uid = M('login')->field('login_uid')->where($map)->getField('login_uid');
+        if ($uid) {
+            $userid = $uid;
+        } else {
+            $this->apiReturn('error', '接口认证失败');
+        }
 
-        $login = $_REQUEST['login'];
-        $login = addslashes($login);
-
-        $where = "(user_phone = '{$login}' or user_name='{$login}' or user_email='{$login}')";
+//        $login = $_REQUEST['login'];
+//        $login = addslashes($login);
+//
+//        $where = "(user_phone = '{$login}' or user_name='{$login}' or user_email='{$login}')";
 
         //判断密码是否正确
-        $user = M('User')->where($where)->field('user_id')->find();
+        $user = M('User')->where("user_id =".$userid)->field('user_id')->find();
         if ($user) {
             $data['login_oauth_token'] = getOAuthToken($user['user_id']);
             $data['login_oauth_token_secret'] = getOAuthTokenSecret();
@@ -148,6 +159,11 @@ class OauthController extends CommonController
         $longitude = I('post.longitude');
         $ip = I('post.ip');
         $sms = D('Sms');
+        $login = M('User')->where("user_phone =" . $phone)->field('`user_phone`')->find();
+        if ($login) {
+            $aa=(object)array();
+            $this->apiReturn('error', '该手机号已经被注册！',$aa);
+        }
         if (!$this->isValidPhone($phone)) {
             $aa=(object)array();
             $this->apiReturn('error', '请填写正确的手机号',$aa);
@@ -247,7 +263,7 @@ class OauthController extends CommonController
         }
         $data = array();
         $data['user_salt'] = rand(10000, 99999);
-        $data['user_password'] = md5(md5($password) . $data['login_salt']);
+        $data['user_password'] = md5(md5($password) . $data['user_salt']);
         $res = M('User')->where('`user_phone` =' . $phone)->save($data);
         if ($res) {
             $this->apiReturn('success', '修改成功');

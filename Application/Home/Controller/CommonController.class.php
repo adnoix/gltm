@@ -103,4 +103,5 @@ class CommonController extends Controller
         return round($calculatedDistance);
     }
 
+
 }

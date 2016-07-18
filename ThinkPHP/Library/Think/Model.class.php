@@ -1906,5 +1906,25 @@ class Model {
             $this->$name = $value;
         return $this;
     }
+    public function getAsFieldArray($field='*'){
+        $options =  $this->_parseOptions(array());
+        $resultSet = $this->db->select($options);
+
+        if (count($resultSet) > 0) {
+            $tmp = array();
+            foreach ($resultSet as $key => $value) {
+                $tmp[$key] = $field == '*' ? $value : @$value[$field];
+            }
+            $resultSet = $tmp;
+        }
+
+        if(false === $resultSet) {
+            return false;
+        }
+        if(empty($resultSet)) { // 查询结果为空
+            return null;
+        }
+        return $resultSet;
+    }
 
 }

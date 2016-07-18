@@ -43,6 +43,7 @@ class FeedbackController extends CommonController
         $feedback_contact = addslashes($_REQUEST['feedbackcontact']);
         $feedback_ip = $_REQUEST['feedback_ip'];
         $map['feedback_uid'] = $this->userid;
+        $map['feedback_detail'] =$feedback_detail;
         $map['feedback_contact'] = $feedback_contact;
         $map['feedback_ip'] = $feedback_ip;
         $map['feedback_ctime'] = time();
